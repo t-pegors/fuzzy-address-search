@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+  <!------>
+  <!-- LOAD DATABASE -->
+  <!------------->
+
+    <div class="container-fluid ps-5 pe-5">
+        <div class="row pt-3">
+            <div class="col text-center">
+                <h4 class="text-muted">Step 1:</h4>
+                <h3 class="lead">Load the database you want to search (should be in csv format).</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col"></div>
+            <div class="col text-center">
+                <div class="mb-3">
+                    <input class="form-control" type="file" id="formFile">
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col text-center">
+                <input class="btn btn-primary" id="file_upload" name="file_upload" type="button" value="Upload">
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row pt-2">
+          <div class="col text-center">
+            <p id="msg">No file uploaded</p>
+          </div>
+        </div>
+
+        <div class="row mt-1 mb-3">
+            <div class="col"></div>
+            <div class="col">
+                <div class="progress" id="div_file_progress_bar" hidden>
+                    <div id="file_progress_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%"></div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    <hr>
+    </div>
+
+
+    <!---------------------->
+    <!-- PREPARE DATA ------>
+    <!---------------------->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h4 class="text-muted">Step 2:</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <h3 class="text-center lead">Prepare data for fuzzy search capabilities.</h3>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col"></div>
+            <div class="col text-center">
+                <div class="form-group">
+                    <label for="column_dropdown">Pick column to search:</label>
+                    <select id="column_dropdown" class="form-control" disabled="true">
+                    </select>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row mt-2">
+            <div class="col"></div>
+            <div class="col text-center">
+              <label for="vocab_go">Prepare the column for search:</label>
+              <button id="vocab_go" type="button" class="btn btn-warning btn-md ms-2" disabled="true">Build Vocab</button>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <p id="build_msg"></p>
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col"></div>
+                <div class="col">
+                    <div class="progress" id="div_vocab_progress_bar" hidden="True">
+                        <div id="vocab_progress_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%"></div>
+                  </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h4 class="text-muted">Step 3:</h4>
+            </div>
+            <h3 class="text-center lead">Enter the address(es) you want to search, one per line.</h3>
+        </div>
+
+        <div class="row">
+            <div class="col"></div>
+            <div class="col text-left">
+                <textarea type="text" rows="5" class="form-control text-left" id="addresses" placeholder="Enter Address(es)" disabled="True"></textarea>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class=" text-center">
+                <p id="num_rows">0 addresses to search.</p>
+            </div>
+        </div>
+
+    <hr>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h4 class="text-muted">Step 4:</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+                <div class="col text-center">
+                    <h3 class="lead">Enter the match threshold (i.e. 80 = 80% match or higher)</h3>
+                </div>
+            <div class="col"></div>
+        </div>
+
+        <div class="form-group row">
+            <div class = "col"></div>
+            <div class = "col text-center">
+                <input type="number" class="form-control text-center" id="threshold" placeholder="enter threshold (1-100)" disabled="True">
+            </div>
+            <div class = "col"></div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h4 class="text-muted">Step 5:</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col text-center">
+                <h3 class="text-center lead">Run the search</h3>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <button id="search" disabled="true" class="btn btn-warning" type="button">Search</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <p id="search_msg"></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <div class="progress" id="div_search_progress_bar" hidden="True">
+                    <div id="search_progress_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" stype="width:100%"></div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <table id="fuzzy_address_table" class="table table-striped" width="100%">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+
+    <script src="static/js/jquery_3.6.0.js"></script>
+    <script src="static/js/jquery.dataTables.min.js"></script>
+    <script src="static/js/bootstrap_5.0.1.min.js"></script>
+    <script src="static/js/dataTables.bootstrap5.min.js"></script>
+    <script src="static/js/dataTables.buttons.min.js"></script>
+    <script src="static/js/buttons.html5.min.js"></script>
+    <script src="static/js/fuzzy_search.js"></script>
+
+{% endblock %}

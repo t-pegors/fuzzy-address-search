@@ -1,0 +1,28 @@
+<html lang="eng">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width", initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/bootstrap_5.0.1.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/dataTables.bootstrap5.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/buttons.dataTables.min.css')}}">
+  </head>
+
+  <body>
+
+    {% block banner %}
+    <div class="container">
+      <div class="bg-light p-5 border-bottom rounded-3">
+          <h1 class="display-4 text-center">Fuzzy Address Search Tool</h1>
+          <p class="lead text-center">Allows you to run a fuzzy address search on your own datasets.</p>
+      </div>
+    </div>
+
+    {% endblock %}
+
+    {% block app_content %}{% endblock %}
+
+    {% block footer %} {% endblock %}
+
+</body>
+</html>

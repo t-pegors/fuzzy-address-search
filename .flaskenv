@@ -1,0 +1,1 @@
+FLASK_APP=fuzzy_address.py
